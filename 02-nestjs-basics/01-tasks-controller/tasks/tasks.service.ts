@@ -17,7 +17,7 @@ export class TasksService {
 
   createTask(task: Task): Task {
     const newTask = {
-      id: "" + Date.now(),
+      id: "" + this.tasks.length,
       title: task.title,
       description: task.description,
       status: task.status
@@ -28,9 +28,15 @@ export class TasksService {
 
   updateTask(id: string, update: Task): Task {
      const task = this.getTaskById(id);
-     task.title = update.title;
-     task.description = update.description;
-     task.status = update.status;
+     if (update.title !== undefined) {
+      task.title = update.title;
+     }
+     if (update.description !== undefined) {
+      task.description = update.description;
+     }
+     if (update.status !== undefined) {
+      task.status = update.status;
+     }
      return task;
   }
 
