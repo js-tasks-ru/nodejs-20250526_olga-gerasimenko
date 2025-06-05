@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, BadRequestException, NotFoundException } from "@nestjs/common";
 import { Task, TaskStatus } from "./task.model";
 
 @Injectable()
@@ -40,5 +40,31 @@ export class TasksService {
     status?: TaskStatus,
     page?: number,
     limit?: number,
-  ): Task[] {}
+  ): Task[] {
+    if (status && !Object.values(TaskStatus).includes(status)) {
+      throw new BadRequestException(`Invalid status: ${status}. Allowed statuses are: ${Object.values(TaskStatus).join(', ')}`);
+    }
+
+    if (page && page < 1) {
+      throw new BadRequestException(`Invalid page: ${page}. Allowed only positive number`);
+    }
+
+    if (limit && limit < 1) {
+      throw new BadRequestException(`Invalid limit: ${limit}. Allowed only positive number`);
+    }
+
+    let tasks = this.tasks;
+
+    if (status) {
+      tasks = tasks.filter(task => task.status === status);
+    }
+
+    if (page !== undefined && limit !== undefined) {
+      const startIndex = (page - 1) * limit;
+      tasks = tasks.slice(startIndex, startIndex + limit);
+    }
+
+    if (!tasks) throw new NotFoundException(`tasks with status ${status} not found`);
+    return tasks;
+  }
 }
