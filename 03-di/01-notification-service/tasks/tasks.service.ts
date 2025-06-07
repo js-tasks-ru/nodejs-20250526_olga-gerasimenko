@@ -22,7 +22,6 @@ export class TasksService {
 
     const user = this.usersService.getUserById(assignedTo);
     this.notificationsService.sendEmail(user.email, "Новая задача", `Вы назначены ответственным за задачу: "${title}"`);
-
     return task;
   }
 
