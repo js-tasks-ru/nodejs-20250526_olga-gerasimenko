@@ -59,16 +59,14 @@ export class TasksService {
       tasks = tasks.filter(task => task.status === status);
     }
 
-    if (page !== undefined || limit !== undefined) {
-      const startIndex = (page ? (page - 1) * (limit ?? tasks.length) : 0);
-      const endIndex = limit ? startIndex + limit : tasks.length;
+    const startIndex = (page ? (page - 1) * (limit ?? tasks.length) : 0);
+    const endIndex = limit ? startIndex + limit : tasks.length;
 
-      if (startIndex >= tasks.length) {
-        return [];
-      }
-
-      tasks = tasks.slice(startIndex, endIndex);
+    if (startIndex >= tasks.length) {
+      return [];
     }
+
+    tasks = tasks.slice(startIndex, endIndex);
 
     if (tasks.length === 0) throw new NotFoundException(`tasks with status ${status} not found`);
     return tasks;
