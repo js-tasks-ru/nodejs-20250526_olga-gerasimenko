@@ -4,17 +4,17 @@ import {
     PrimaryGeneratedColumn,
   } from 'typeorm';
   
-  @Entity()
+  @Entity('tasks')
   export class Task {
     @PrimaryGeneratedColumn()
     id: number;
   
-    @Column()
+    @Column({ type: 'varchar', length: 255, nullable: false })
     title: string;
 
-    @Column()
+    @Column({ type: 'text', nullable: false})
     description: string;
 
-    @Column()
+    @Column({ type: 'boolean', default: false, nullable: true })
     isCompleted: boolean;
   }
