@@ -18,20 +18,27 @@ export class TasksController {
   constructor(private readonly tasksService: TasksService) {}
 
   @Post()
-  create(@Body() createTaskDto: CreateTaskDto) {}
+  create(@Body() body: CreateTaskDto) {
+    return this.tasksService.create(body);
+  }
 
   @Get()
-  findAll() {}
+  findAll() {
+    return this.tasksService.findAll();
+  }
 
   @Get(":id")
-  findOne(@Param("id", ObjectIDPipe) id: ObjectId) {}
+  findOne(@Param('id', ObjectIDPipe) id: ObjectId) {
+    return this.tasksService.findOne(id);
+  }
 
   @Patch(":id")
-  update(
-    @Param("id", ObjectIDPipe) id: ObjectId,
-    @Body() updateTaskDto: UpdateTaskDto,
-  ) {}
+  update(@Param('id', ObjectIDPipe) id: ObjectId, @Body() body: UpdateTaskDto) {
+    return this.tasksService.update(id, body);
+  }
 
   @Delete(":id")
-  remove(@Param("id", ObjectIDPipe) id: ObjectId) {}
+  remove(@Param('id', ObjectIDPipe) id: ObjectId) {
+    return this.tasksService.remove(id);
+  }
 }

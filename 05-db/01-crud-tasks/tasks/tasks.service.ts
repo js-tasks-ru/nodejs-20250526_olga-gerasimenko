@@ -33,26 +33,18 @@ export class TasksService {
   }
 
   async update(id: number, updateTaskDto: UpdateTaskDto) {
-    try {
-      const task = await this.findOne(id);    
+    const task = await this.findOne(id);    
 
-      Object.assign(task, updateTaskDto);
-      return this.tasksRepository.save(task);
-    } catch (err) {
-      throw new NotFoundException(err.message);
-    }
+    Object.assign(task, updateTaskDto);
+    return this.tasksRepository.save(task);
   }
 
   async remove(id: number): Promise<object> {
-    try {
-      const task = await this.findOne(id);
+    const task = await this.findOne(id);
 
-      await this.tasksRepository.delete(task.id);
-      return {
-        "message": "Task deleted successfully"
-      }
-    } catch (err) {
-      throw new NotFoundException(err.message);
+    await this.tasksRepository.remove(task);
+    return {
+      "message": "Task deleted successfully"
     }
   }
 }
